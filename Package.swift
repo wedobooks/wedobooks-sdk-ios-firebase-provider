@@ -19,7 +19,7 @@ let package = Package(
             exact: "11.13.0"
         ),
         .package(
-            url: "https://github.com/wedobooks/WDBFirebaseInterfacesPackage.git", 
+            url: "https://github.com/wedobooks/wedobooks-sdk-ios-firebase-interfaces.git",
             from: "1.0.0"
         )
     ],
@@ -27,7 +27,7 @@ let package = Package(
         .target(
             name: "FirebaseProvider",
             dependencies: [
-                .product(name: "WDBFirebaseInterfaces", package: "WDBFirebaseInterfacesPackage"),
+                .product(name: "WDBFirebaseInterfaces", package: "wedobooks-sdk-ios-firebase-interfaces"),
                 .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
