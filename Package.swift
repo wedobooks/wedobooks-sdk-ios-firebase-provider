@@ -18,12 +18,16 @@ let package = Package(
             url: "https://github.com/firebase/firebase-ios-sdk.git",
             exact: "11.13.0"
         ),
+        .package(
+            url: "https://github.com/wedobooks/WDBFirebaseInterfacesPackage.git", 
+            from: "1.0.0"
+        )
     ],
     targets: [
         .target(
             name: "FirebaseProvider",
             dependencies: [
-                "WDBFirebaseInterfaces",
+                .product(name: "WDBFirebaseInterfaces", package: "WDBFirebaseInterfacesPackage"),
                 .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
@@ -34,11 +38,6 @@ let package = Package(
         .testTarget(
             name: "FirebaseProviderTests",
             dependencies: ["FirebaseProvider"]
-        ),
-        .binaryTarget(
-            name: "WDBFirebaseInterfaces",
-            url: "https://wdb-ios-spm-844218222632.europe-west1.run.app/WDBFirebaseInterfaces-v1.0.0.xcframework.zip",
-            checksum: "2e9b237fce9bbe23213356b14469ede484b1b0619e28920379bed325364cc056"
         )
     ]
 )
