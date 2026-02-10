@@ -31,8 +31,9 @@ public final class HTTPSCallableProvider: HTTPSCallableWrapper {
         self.callable = callable
     }
     
-    public func call(_ data: Any?, completion: @escaping (HTTPSCallableResultWrapper?, Error?) -> Void) {
-        let completionWrapper: (HTTPSCallableResult?, Error?) -> Void = { result, error in
+    
+    public func call(_ data: sending Any?, completion: @escaping @Sendable @MainActor ((any HTTPSCallableResultWrapper)?, (any Error)?) -> Void) {
+        let completionWrapper: @MainActor (HTTPSCallableResult?, Error?) -> Void = { result, error in
             if let result {
                 completion(HTTPSCallableResultProvider(result: result), nil)
             } else {

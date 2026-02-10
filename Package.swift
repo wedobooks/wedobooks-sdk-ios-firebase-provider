@@ -16,11 +16,11 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/firebase/firebase-ios-sdk.git",
-            exact: "11.13.0"
+            exact: "12.9.0"
         ),
         .package(
             url: "https://github.com/wedobooks/wedobooks-sdk-ios-firebase-interfaces.git",
-            from: "1.0.0"
+            from: "1.1.1"
         )
     ],
     targets: [
