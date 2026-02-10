@@ -75,12 +75,12 @@ final class FirestoreDocumentReferenceWrapper: DocumentReferenceWrapper {
         return FirestoreCollectionReferenceWrapper(reference: collectionRef)
     }
     
-    func delete(completion: @escaping (Error?) -> Void) {
+    func delete(completion: @Sendable @escaping (Error?) -> Void) {
         reference.delete(completion: completion)
     }
     
-    func getDocument(_ completion: @escaping (DocumentSnapshotWrapper?, Error?) -> Void) {
-        let completionWrapper: (DocumentSnapshot?, Error?) -> Void = { snapshot, error in
+    func getDocument(_ completion: @Sendable @escaping (DocumentSnapshotWrapper?, Error?) -> Void) {
+        let completionWrapper: @Sendable (DocumentSnapshot?, Error?) -> Void = { snapshot, error in
             if let snapshot {
                 completion(FirestoreDocumentSnapshotWrapper(snapshot: snapshot), error)
             } else {
@@ -90,7 +90,7 @@ final class FirestoreDocumentReferenceWrapper: DocumentReferenceWrapper {
         reference.getDocument(completion: completionWrapper)
     }
     
-    func setData(_ data: [String: Any], merge: Bool, completion: @escaping (Error?) -> Void) {
+    func setData(_ data: [String: Any], merge: Bool, completion: @Sendable @escaping (Error?) -> Void) {
         reference.setData(data, merge: merge, completion: completion)
     }
 }
@@ -158,8 +158,8 @@ final class FirestoreCollectionReferenceWrapper: CollectionReferenceWrapper {
         return FirestoreListenerRegistrationWrapper(registration: handle)
     }
     
-    func getDocuments(_ completion: @escaping (QuerySnapshotWrapper?, Error?) -> Void) {
-        let completionWrapper: (QuerySnapshot?, Error?) -> Void = { snapshot, error in
+    func getDocuments(_ completion: @Sendable @escaping (QuerySnapshotWrapper?, Error?) -> Void) {
+        let completionWrapper: @Sendable (QuerySnapshot?, Error?) -> Void = { snapshot, error in
             if let snapshot {
                 completion(FirestoreQuerySnapshotWrapper(snapshot: snapshot), error)
             } else {
@@ -217,8 +217,8 @@ class FirestoreQueryWrapper: QueryWrapper {
         return FirestoreListenerRegistrationWrapper(registration: handle)
     }
     
-    func getDocuments(_ completion: @escaping (QuerySnapshotWrapper?, Error?) -> Void) {
-        let completionWrapper: (QuerySnapshot?, Error?) -> Void = { snapshot, error in
+    func getDocuments(_ completion: @Sendable @escaping (QuerySnapshotWrapper?, Error?) -> Void) {
+        let completionWrapper: @Sendable (QuerySnapshot?, Error?) -> Void = { snapshot, error in
             if let snapshot {
                 completion(FirestoreQuerySnapshotWrapper(snapshot: snapshot), error)
             } else {
