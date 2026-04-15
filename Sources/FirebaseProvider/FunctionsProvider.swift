@@ -32,15 +32,42 @@ public final class HTTPSCallableProvider: HTTPSCallableWrapper {
     }
     
     
-    public func call(_ data: sending Any?, completion: @escaping @Sendable @MainActor ((any HTTPSCallableResultWrapper)?, (any Error)?) -> Void) {
+    public func call(_ data: sending Any?, completion: @escaping @Sendable @MainActor ((any HTTPSCallableResultWrapper)?, (any CallableError)?) -> Void) {
         let completionWrapper: @MainActor (HTTPSCallableResult?, Error?) -> Void = { result, error in
             if let result {
                 completion(HTTPSCallableResultProvider(result: result), nil)
             } else {
-                completion(nil, error)
+                completion(nil, CallableErrorMapper.map(error))
             }
         }
         callable.call(data, completion: completionWrapper)
+    }
+}
+
+struct CallableErrorAdapter: CallableError, @unchecked Sendable {
+    let code: CallableErrorCode
+    let errorUserInfo: [String: Any]
+}
+
+enum CallableErrorMapper {
+    static func map(_ error: Error?) -> (any CallableError)? {
+        guard let error else {
+            return nil
+        }
+        
+        let nsError = error as NSError
+        if nsError.domain == FunctionsErrorDomain,
+           let functionsCode = FunctionsErrorCode(rawValue: nsError.code),
+           let callableCode = CallableErrorCode(rawValue: functionsCode.rawValue) {
+            return CallableErrorAdapter(code: callableCode, errorUserInfo: nsError.userInfo)
+        }
+        
+        var userInfo = nsError.userInfo
+        if userInfo[NSUnderlyingErrorKey] == nil {
+            userInfo[NSUnderlyingErrorKey] = error
+        }
+        
+        return CallableErrorAdapter(code: .unknown, errorUserInfo: userInfo)
     }
 }
 
