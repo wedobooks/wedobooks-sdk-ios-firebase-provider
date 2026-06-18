@@ -146,7 +146,15 @@ final class FirestoreCollectionReferenceWrapper: CollectionReferenceWrapper {
         let newQuery = reference.limit(to: to)
         return FirestoreQueryWrapper(query: newQuery)
     }
-    
+
+    func start(afterDocument: QueryDocumentSnapshotWrapper) -> QueryWrapper {
+        guard let wrapper = afterDocument as? FirestoreQueryDocumentSnapshotWrapper else {
+            return FirestoreQueryWrapper(query: reference)
+        }
+
+        return FirestoreQueryWrapper(query: reference.start(afterDocument: wrapper.snapshot))
+    }
+
     func addSnapshotListener(_ callback: @escaping (QuerySnapshotWrapper?, Error?) -> Void) -> ListenerRegistrationWrapper {
         let handle = reference.addSnapshotListener { snapshot, error in
             if let snapshot {
@@ -205,7 +213,15 @@ class FirestoreQueryWrapper: QueryWrapper {
         let newQuery = query.limit(to: to)
         return FirestoreQueryWrapper(query: newQuery)
     }
-    
+
+    func start(afterDocument: QueryDocumentSnapshotWrapper) -> QueryWrapper {
+        guard let wrapper = afterDocument as? FirestoreQueryDocumentSnapshotWrapper else {
+            return self
+        }
+
+        return FirestoreQueryWrapper(query: query.start(afterDocument: wrapper.snapshot))
+    }
+
     func addSnapshotListener(_ callback: @escaping (QuerySnapshotWrapper?, Error?) -> Void) -> ListenerRegistrationWrapper {
         let handle = query.addSnapshotListener { snapshot, error in
             if let snapshot {
@@ -304,7 +320,7 @@ final class FirestoreQuerySnapshotWrapper: QuerySnapshotWrapper {
 }
 
 final class FirestoreQueryDocumentSnapshotWrapper: QueryDocumentSnapshotWrapper {
-    private let snapshot: QueryDocumentSnapshot
+    let snapshot: QueryDocumentSnapshot
     
     var documentID: String {
         snapshot.documentID
