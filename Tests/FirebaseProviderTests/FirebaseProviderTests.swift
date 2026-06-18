@@ -1,5 +1,6 @@
 import XCTest
 internal import FirebaseFunctions
+import WDBFirebaseInterfaces
 @testable import FirebaseProvider
 
 final class FirebaseProviderTests: XCTestCase {
