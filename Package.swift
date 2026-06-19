@@ -20,7 +20,7 @@ let package = Package(
         ),
         .package(
             url: "https://github.com/wedobooks/wedobooks-sdk-ios-firebase-interfaces.git",
-            exact: "1.2.0"
+            exact: "1.3.0"
         )
     ],
     targets: [
