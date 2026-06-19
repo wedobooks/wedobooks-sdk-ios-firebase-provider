@@ -18,8 +18,10 @@ let package = Package(
             url: "https://github.com/firebase/firebase-ios-sdk.git",
             exact: "12.14.0"
         ),
-        // DEV OVERRIDE: local source path until 1.3.0 xcframework is published; revert to url+exact at publish.
-        .package(path: "../wedobooks-sdk-ios-firebase-interfaces")
+        .package(
+            url: "https://github.com/wedobooks/wedobooks-sdk-ios-firebase-interfaces.git",
+            exact: "1.3.0"
+        )
     ],
     targets: [
         .target(
