@@ -5,7 +5,7 @@
 //  Created by Bo Gosmer on 14/10/2025.
 //
 
-internal import Firebase
+internal import FirebaseCore
 internal import FirebaseAuth
 import Foundation
 import WDBFirebaseInterfaces
