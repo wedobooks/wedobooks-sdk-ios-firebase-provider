@@ -16,7 +16,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/firebase/firebase-ios-sdk.git",
-            exact: "12.14.0"
+            .upToNextMajor(from: "12.14.0")
         ),
         .package(
             url: "https://github.com/wedobooks/wedobooks-sdk-ios-firebase-interfaces.git",
@@ -28,16 +28,19 @@ let package = Package(
             name: "FirebaseProvider",
             dependencies: [
                 .product(name: "WDBFirebaseInterfaces", package: "wedobooks-sdk-ios-firebase-interfaces"),
-                .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseCore", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseFunctions", package: "firebase-ios-sdk"),
-                .product(name: "FirebaseRemoteConfig", package: "firebase-ios-sdk"),
             ]
         ),
         .testTarget(
             name: "FirebaseProviderTests",
-            dependencies: ["FirebaseProvider"]
+            dependencies: [
+                "FirebaseProvider",
+                .product(name: "WDBFirebaseInterfaces", package: "wedobooks-sdk-ios-firebase-interfaces"),
+                .product(name: "FirebaseFunctions", package: "firebase-ios-sdk"),
+            ]
         )
     ]
 )
